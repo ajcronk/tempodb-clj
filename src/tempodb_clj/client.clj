@@ -51,14 +51,18 @@
                      :as :json  }))
     result)
 
+
 (defn create-series
     "create a new series with optionally specified key"
     [client & {:keys [key]
         :or {key nil}}]
     (def target "/series/")
-    (if key 
-        (request client target "POST" :body {:key key})
-        (request client target "POST")))
+    (def result 
+        (if key 
+            (request client target "POST" :body {:key key})
+            (request client target "POST")))
+
+    (result :body))
     
 
 (defn get-series
@@ -67,4 +71,13 @@
         :or {id [] key [] tag [] attr {} }}]
 
     (def target (format "/series/?%s" (build-querystring id key tag attr)))
-    (request client target "GET"))
+    (def result ((request client target "GET")))
+    (result :body))
+
+
+(defn update-series
+    [client id key name tags attributes]
+    (def target (format "/series/id/%s/" id))
+    (def body {:id id, :key key, :name name, :tags tags, :attributes attributes})
+    (def result (request client target "PUT" :body body))
+    (result :body))

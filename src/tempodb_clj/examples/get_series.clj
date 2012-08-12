@@ -10,4 +10,5 @@
     ;(println (tempodb/get-series client :key '("foo" "bar")))
     ;(println (tempodb/get-series client :tag '("tag1" "tag2")))
     ;(println (tempodb/get-series client :attr {:blah "boo"}))
+    ;(println (tempodb/get-series client :tag ("tag1") :attr {:blah "boo"}))
     )
