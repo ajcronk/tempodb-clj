@@ -3,8 +3,8 @@
   (:gen-class))
 
 (defn -main [& args]
-    (def client (tempodb/new-client "myagley" "opensesame"))
+    (def client (tempodb/new-client "your-api-key" "your-api-secret"))
     
-    (println (tempodb/create-series client))
-    ;(println (tempodb/create-series client :key "andy-clj"))
+    (println (tempodb/create-series client :key "your-custom-series"))
+    ;(println (tempodb/create-series client))
     )

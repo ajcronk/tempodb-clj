@@ -3,7 +3,7 @@
   (:gen-class))
 
 (defn -main [& args]
-    (def client (tempodb/new-client "myagley" "opensesame"))
+    (def client (tempodb/new-client "your-api-key" "your-api-secret"))
     
     (println (tempodb/get-series client))
     ;(println (tempodb/get-series client :id '("0c3a107c53024ea2a81b8115140b6831")))
