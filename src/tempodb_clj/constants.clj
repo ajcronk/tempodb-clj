@@ -1,6 +1,6 @@
 (ns tempodb-clj.constants)
 
-(def ^:private +tempodb-api-version+ "v1")
+(def +tempodb-api-version+ "v1")
 
 (def +tempodb-api-host+ "api.tempo-db.com")
 
