@@ -11,21 +11,15 @@
         :or {host constants/+tempodb-api-host+, port constants/+tempodb-api-port+, secure constants/+tempodb-api-secure+}}]
     {:key key, :secret secret, :host host, :port port, :secure secure})
 
-(defn build-querystring-params
-    [identifier params]
-    (clojure.string/join "&" (for [v params] (str identifier "=" (java.net.URLEncoder/encode (name v))))))
-
-(defn build-querystring-attrs
-    [params]
-    (clojure.string/join "&" (for [[k v] params] (str "attr[" (name k) "]=" (java.net.URLEncoder/encode (name v))))))
-
 (defn build-querystring
-    [id key tag attr]
-    (def querystring-ids (build-querystring-params "id" id))
-    (def querystring-keys (build-querystring-params "key" key))
-    (def querystring-tags (build-querystring-params "tag" tag))
-    (def querystring-attrs (build-querystring-attrs attr))
-    (str querystring-ids querystring-keys querystring-tags querystring-attrs))
+    [[identifier params]]
+    (if (map? params)
+        (clojure.string/join "&" (for [[k v] params] (str (name identifier) "[" (name k) "]=" (java.net.URLEncoder/encode (name v)))))
+        (clojure.string/join "&" (for [v params] (str (name identifier) "=" (java.net.URLEncoder/encode v))))))
+
+(defn get-querystring
+    [params]
+    (reduce str (map build-querystring (seq params))))
 
 (defn build-full-url
     [client target]
@@ -63,14 +57,14 @@
             (request client target "POST")))
 
     (result :body))
-    
+
 
 (defn get-series
     "return optionally filtered series"
     [client & {:keys [id key tag attr]
         :or {id [] key [] tag [] attr {} }}]
 
-    (def target (format "/series/?%s" (build-querystring id key tag attr)))
+    (def target (format "/series/?%s" (get-querystring {:id id, :key key, :tag tag, :attr attr})))
     (def result ((request client target "GET")))
     (result :body))
 
