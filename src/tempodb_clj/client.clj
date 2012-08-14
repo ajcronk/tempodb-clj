@@ -14,7 +14,7 @@
 (defn build-querystring
     [[identifier params]]
     (if (map? params)
-        (clojure.string/join "&" (for [[k v] params] (str (name identifier) "[" (name k) "]=" (java.net.URLEncoder/encode (name v)))))
+        (clojure.string/join "&" (for [[k v] params] (str (name identifier) "[" (name k) "]=" (java.net.URLEncoder/encode v))))
         (clojure.string/join "&" (for [v params] (str (name identifier) "=" (java.net.URLEncoder/encode v))))))
 
 (defn get-querystring
