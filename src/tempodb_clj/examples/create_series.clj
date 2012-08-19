@@ -1,6 +1,5 @@
 (ns tempodb-clj.examples.create-series
-  (:require [tempodb-clj.client :as tempodb])
-  (:gen-class))
+  (:require [tempodb-clj.client :as tempodb]))
 
 (defn -main [& args]
     (def client (tempodb/new-client "your-api-key" "your-api-secret"))
